@@ -20,6 +20,7 @@ export default [
             'docs/*',
             'logs/*',
             'node_modules/*',
+            'src/*'
         ],
     },
     {

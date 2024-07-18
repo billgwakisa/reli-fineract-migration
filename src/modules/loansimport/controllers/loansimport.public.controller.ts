@@ -7,14 +7,18 @@ import {
     Post,
     VERSION_NEUTRAL,
 } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { ApiTags } from '@nestjs/swagger';
 import axios from 'axios';
+import { Model } from 'mongoose';
 import { catchError, map } from 'rxjs';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
 import { Response } from 'src/common/response/decorators/response.decorator';
 import { IResponse } from 'src/common/response/interfaces/response.interface';
 import { LoansimportDoc } from 'src/modules/loansimport/docs/loansimport.doc';
 import { LoansimportResponseDto } from 'src/modules/loansimport/dtos/response/loansimport.response.dto';
+import { LoanImportEntity } from 'src/modules/loansimport/repository/entities/loanimport.entity';
+import { LoanImportRepository } from 'src/modules/loansimport/repository/repositories/loanimport.repository';
 
 @ApiTags('modules.public.hello')
 @Controller({
@@ -23,6 +27,7 @@ import { LoansimportResponseDto } from 'src/modules/loansimport/dtos/response/lo
 })
 export class LoansimportPublicController {
     constructor(
+        private readonly loanImportRepository: LoanImportRepository,
         private readonly helperDateService: HelperDateService,
         private http: HttpService
     ) {}
@@ -33,7 +38,11 @@ export class LoansimportPublicController {
     async postLoans(): Promise<IResponse<LoansimportResponseDto>> {
         const newDate = this.helperDateService.create();
         const logger = new Logger();
-        const headers = { Authorization: 'Basic YWRtaW46VGVzdEAxMjM0' };
+        const headers = { 'Fineract-Platform-TenantId': 'default' };
+        const authHeader = {
+            username: 'admin',
+            password: 'Test@1234',
+        };
         logger.log('Initiating loan import');
 
         try {
@@ -42,9 +51,10 @@ export class LoansimportPublicController {
 
                 axios({
                     method: 'POST',
-                    url: 'https://railsarefine.free.beeceptor.com/new-loans',
+                    url: 'https://fineractxbmtest.usereli.tech/fineract-provider/api/v1/loans',
                     data: loan,
                     headers: headers,
+                    auth: authHeader,
                 })
                     .then(function (response) {
                         logger.log(response.status);
@@ -64,13 +74,21 @@ export class LoansimportPublicController {
             const approveLoan = (resourceId, loan) => {
                 logger.log(`Approving loan with id ${resourceId}`);
 
-                const approval = [];
+                const approval = {
+                    approvedOnDate: loan.submittedOnDate,
+                    expectedDisbursementDate: loan.submittedOnDate,
+                    approvedLoanAmount: loan.principal,
+                    note: '',
+                    dateFormat: 'dd MMMM yyyy',
+                    locale: 'en',
+                };
 
                 axios({
                     method: 'POST',
-                    url: 'https://railsarefine.free.beeceptor.com/new-loan-appoval',
+                    url: `https://fineractxbmtest.usereli.tech/fineract-provider/api/v1/loans/${resourceId}?command=approve`,
                     data: approval,
                     headers: headers,
+                    auth: authHeader,
                 })
                     .then(function (response) {
                         logger.log(response.status);
@@ -91,13 +109,22 @@ export class LoansimportPublicController {
             const disburseLoan = (resourceId, loan) => {
                 logger.log(`Disbursing loan with id ${resourceId}`);
 
-                const disbursal = [];
+                const disbursal = {
+                    actualDisbursementDate: loan.submittedOnDate,
+                    transactionAmount: loan.principal,
+                    externalId: '',
+                    paymentTypeId: 1,
+                    note: '',
+                    dateFormat: 'dd MMMM yyyy',
+                    locale: 'en',
+                };
 
                 axios({
                     method: 'POST',
-                    url: 'https://railsarefine.free.beeceptor.com/new-loan-disbursal',
+                    url: `https://fineractxbmtest.usereli.tech/fineract-provider/api/v1/loans/${resourceId}?command=disburse`,
                     data: disbursal,
                     headers: headers,
+                    auth: authHeader,
                 })
                     .then(function (response) {
                         logger.log(response.status);
@@ -162,13 +189,20 @@ export class LoansimportPublicController {
                     principal: loan.principal,
                 };
 
-                logger.log(`In loop for loop ${loan.principal}`);
+                logger.log(`In loop for loop ${loanRequestData.principal}`);
                 //create a loop of requests, spaced out by 3 seconds each
 
                 //create the loan
-                setTimeout(() => {
-                    createLoan(loan);
-                }, 5000 * index);
+                // setTimeout(() => {
+                //     createLoan(loanRequestData);
+                // }, 5000 * index);
+
+                const create: LoanImportEntity = new LoanImportEntity();
+                create.status = 'testing';
+                create.resourceId = 2;
+                create.response = 'The resource na?';
+                create.message = 'This is the message';
+                this.loanImportRepository.create<LoanImportEntity>(create);
             });
 
             //update mongo tracker

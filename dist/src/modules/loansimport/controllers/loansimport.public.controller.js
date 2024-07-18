@@ -65,7 +65,7 @@ let LoansimportPublicController = class LoansimportPublicController {
                 const create = new loanimport_entity_1.LoanImportEntity();
                 create.status = responseData.status;
                 create.resourceId = responseData.data?.resourceId;
-                create.response = responseData.data;
+                create.response = JSON.stringify(responseData.data);
                 create.message = 'Creation';
                 this.loanImportRepository.create(create);
             };

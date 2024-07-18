@@ -1,0 +1,10 @@
+export declare function UserAdminListDoc(): MethodDecorator;
+export declare function UserAdminGetStateHistoryListDoc(): MethodDecorator;
+export declare function UserAdminGetPasswordHistoryListDoc(): MethodDecorator;
+export declare function UserAdminGetLoginHistoryListDoc(): MethodDecorator;
+export declare function UserAdminGetDoc(): MethodDecorator;
+export declare function UserAdminCreateDoc(): MethodDecorator;
+export declare function UserAdminActiveDoc(): MethodDecorator;
+export declare function UserAdminInactiveDoc(): MethodDecorator;
+export declare function UserAdminBlockedDoc(): MethodDecorator;
+export declare function UserAdminUpdatePasswordDoc(): MethodDecorator;

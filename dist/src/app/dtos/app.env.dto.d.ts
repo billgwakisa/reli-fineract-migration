@@ -1,0 +1,36 @@
+import { ENUM_APP_ENVIRONMENT, ENUM_APP_TIMEZONE } from 'src/app/constants/app.enum.constant';
+import { ENUM_MESSAGE_LANGUAGE } from 'src/common/message/constants/message.enum.constant';
+export declare class AppEnvDto {
+    APP_NAME: string;
+    APP_ENV: ENUM_APP_ENVIRONMENT;
+    APP_LANGUAGE: ENUM_MESSAGE_LANGUAGE;
+    APP_TIMEZONE: ENUM_APP_TIMEZONE;
+    APP_DEBUG: boolean;
+    HTTP_ENABLE: boolean;
+    HTTP_HOST: string;
+    HTTP_PORT: number;
+    URL_VERSIONING_ENABLE: boolean;
+    URL_VERSION: number;
+    JOB_ENABLE: boolean;
+    DATABASE_URI: string;
+    DATABASE_DEBUG: boolean;
+    AUTH_JWT_SUBJECT: string;
+    AUTH_JWT_AUDIENCE: string;
+    AUTH_JWT_ISSUER: string;
+    AUTH_JWT_ACCESS_TOKEN_EXPIRED: string;
+    AUTH_JWT_ACCESS_TOKEN_SECRET_KEY: string;
+    AUTH_JWT_REFRESH_TOKEN_EXPIRED: string;
+    AUTH_JWT_REFRESH_TOKEN_SECRET_KEY: string;
+    AWS_S3_CREDENTIAL_KEY?: string;
+    AWS_S3_CREDENTIAL_SECRET?: string;
+    AWS_S3_REGION?: string;
+    AWS_S3_BUCKET?: string;
+    AWS_SES_CREDENTIAL_KEY?: string;
+    AWS_SES_CREDENTIAL_SECRET?: string;
+    AWS_SES_REGION?: string;
+    AUTH_SOCIAL_GOOGLE_CLIENT_ID?: string;
+    AUTH_SOCIAL_GOOGLE_CLIENT_SECRET?: string;
+    AUTH_SOCIAL_APPLE_CLIENT_ID?: string;
+    AUTH_SOCIAL_APPLE_SIGN_IN_CLIENT_ID?: string;
+    SENTRY_DSN?: string;
+}

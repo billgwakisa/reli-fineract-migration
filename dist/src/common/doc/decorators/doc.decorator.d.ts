@@ -1,0 +1,15 @@
+import { HttpStatus } from '@nestjs/common';
+import { IDocAuthOptions, IDocDefaultOptions, IDocGuardOptions, IDocOfOptions, IDocOptions, IDocRequestFileOptions, IDocRequestOptions, IDocResponseFileOptions, IDocResponseOptions } from 'src/common/doc/interfaces/doc.interface';
+export declare function DocDefault<T>(options: IDocDefaultOptions<T>): MethodDecorator;
+export declare function DocOneOf(httpStatus: HttpStatus, ...documents: IDocOfOptions[]): MethodDecorator;
+export declare function DocAnyOf(httpStatus: HttpStatus, ...documents: IDocOfOptions[]): MethodDecorator;
+export declare function DocAllOf(httpStatus: HttpStatus, ...documents: IDocOfOptions[]): MethodDecorator;
+export declare function Doc(options?: IDocOptions): MethodDecorator;
+export declare function DocRequest(options?: IDocRequestOptions): <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare function DocRequestFile(options?: IDocRequestFileOptions): <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare function DocGuard(options?: IDocGuardOptions): <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare function DocAuth(options?: IDocAuthOptions): <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare function DocResponse<T = void>(messagePath: string, options?: IDocResponseOptions<T>): MethodDecorator;
+export declare function DocErrorGroup(docs: MethodDecorator[]): <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare function DocResponsePaging<T>(messagePath: string, options: IDocResponseOptions<T>): MethodDecorator;
+export declare function DocResponseFile(options?: IDocResponseFileOptions): MethodDecorator;

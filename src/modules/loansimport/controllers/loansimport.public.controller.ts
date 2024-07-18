@@ -58,6 +58,8 @@ export class LoansimportPublicController {
                 })
                     .then(function (response) {
                         logger.log(response.status);
+
+                        updateStatus(response);
                         if ((response.status = 200)) {
                             const resourceId = response.data.resourceId;
                             logger.log(
@@ -69,6 +71,15 @@ export class LoansimportPublicController {
                     .catch(e => {
                         logger.error(e);
                     });
+            };
+
+            const updateStatus = responseData => {
+                const create: LoanImportEntity = new LoanImportEntity();
+                create.status = responseData.status;
+                create.resourceId = responseData.data?.resourceId;
+                create.response = responseData.data;
+                create.message = 'Creation';
+                this.loanImportRepository.create<LoanImportEntity>(create);
             };
 
             const approveLoan = (resourceId, loan) => {
@@ -193,16 +204,9 @@ export class LoansimportPublicController {
                 //create a loop of requests, spaced out by 3 seconds each
 
                 //create the loan
-                // setTimeout(() => {
-                //     createLoan(loanRequestData);
-                // }, 5000 * index);
-
-                const create: LoanImportEntity = new LoanImportEntity();
-                create.status = 'testing';
-                create.resourceId = 2;
-                create.response = 'The resource na?';
-                create.message = 'This is the message';
-                this.loanImportRepository.create<LoanImportEntity>(create);
+                setTimeout(() => {
+                    createLoan(loanRequestData);
+                }, 1200 * index);
             });
 
             //update mongo tracker

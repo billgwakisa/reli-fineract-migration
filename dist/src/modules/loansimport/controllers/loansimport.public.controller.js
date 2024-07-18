@@ -140,7 +140,7 @@ let LoansimportPublicController = class LoansimportPublicController {
                     externalId: loan.loanId,
                     linkAccountId: '',
                     createStandingInstructionAtDisbursement: '',
-                    loanTermFrequency: 1,
+                    loanTermFrequency: loan.numberOfRepayments,
                     loanTermFrequencyType: loan.loanTermFrequencyType,
                     numberOfRepayments: loan.numberOfRepayments,
                     repaymentEvery: 1,

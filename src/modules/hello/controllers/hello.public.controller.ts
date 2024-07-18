@@ -1,4 +1,4 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get, Logger, VERSION_NEUTRAL } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
 import { Response } from 'src/common/response/decorators/response.decorator';
@@ -19,6 +19,9 @@ export class HelloPublicController {
     @Get('/')
     async hello(): Promise<IResponse<HelloResponseDto>> {
         const newDate = this.helperDateService.create();
+        const logger = new Logger();
+
+        logger.log('Original Hello');
 
         return {
             data: {
